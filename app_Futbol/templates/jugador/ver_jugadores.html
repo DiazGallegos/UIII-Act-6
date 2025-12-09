@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Lista de Jugadores</h2>
+<a href="{% url 'agregar_jugador' %}" class="btn btn-primary mb-3">➕ Agregar Nuevo Jugador</a>
+
+{% if jugadores %}
+<div class="row">
+    {% for jugador in jugadores %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <!-- SECCIÓN DE FOTO - ¡IMPORTANTE! -->
+            <div class="text-center p-3" style="height: 250px;">
+                {% if jugador.foto %}
+                    <img src="{{ jugador.foto.url }}" 
+                         class="img-fluid rounded h-100" 
+                         alt="{{ jugador.nombre }} {{ jugador.apellido }}"
+                         style="object-fit: contain;">
+                {% else %}
+                    <div class="bg-light h-100 d-flex align-items-center justify-content-center">
+                        <div class="text-center">
+                            <span class="text-muted d-block fs-1">👤</span>
+                            <small class="text-muted">Sin foto</small>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="card-body">
+                <h5 class="card-title">{{ jugador.nombre }} {{ jugador.apellido }}</h5>
+                <p class="card-text">
+                    <strong>⚽ Posición:</strong> 
+                    {% if jugador.posicion == 'POR' %}Portero
+                    {% elif jugador.posicion == 'DEF' %}Defensa
+                    {% elif jugador.posicion == 'MED' %}Mediocampista
+                    {% elif jugador.posicion == 'DEL' %}Delantero
+                    {% endif %}<br>
+                    
+                    <strong>🔢 Número:</strong> #{{ jugador.numero_camiseta }}<br>
+                    <strong>🌍 Nacionalidad:</strong> {{ jugador.nacionalidad }}<br>
+                    <strong>🏆 Equipo:</strong> {{ jugador.equipo.nombre }}<br>
+                    <strong>🎂 Nacimiento:</strong> {{ jugador.fecha_nacimiento|date:"d/m/Y" }}
+                </p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'actualizar_jugador' jugador.id %}" class="btn btn-warning btn-sm">✏️ Editar</a>
+                <a href="{% url 'borrar_jugador' jugador.id %}" class="btn btn-danger btn-sm">🗑️ Borrar</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">
+    No hay jugadores registrados. <a href="{% url 'agregar_jugador' %}">Agregar el primer jugador</a>
+</div>
+{% endif %}
+{% endblock %}

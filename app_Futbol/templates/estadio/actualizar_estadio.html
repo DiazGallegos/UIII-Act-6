@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Editar Estadio: {{ estadio.nombre }}</h2>
+<form method="POST" action="{% url 'realizar_actualizacion_estadio' estadio.id %}">
+    {% csrf_token %}
+    
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label">Nombre</label>
+            <input type="text" name="nombre" class="form-control" value="{{ estadio.nombre }}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Ciudad</label>
+            <input type="text" name="ciudad" class="form-control" value="{{ estadio.ciudad }}" required>
+        </div>
+    </div>
+    
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label">Capacidad</label>
+            <input type="number" name="capacidad" class="form-control" value="{{ estadio.capacidad }}" min="1" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Año de Inauguración</label>
+            <input type="number" name="año_inauguracion" class="form-control" value="{{ estadio.año_inauguracion }}" min="1800" max="{% now 'Y' %}" required>
+        </div>
+    </div>
+    
+    <div class="mb-3">
+        <label class="form-label">Dirección</label>
+        <textarea name="direccion" class="form-control" rows="2">{{ estadio.direccion|default_if_none:'' }}</textarea>
+    </div>
+    
+    <div class="mb-3">
+        <label class="form-label">Equipo Local</label>
+        <select name="equipo_local" class="form-control">
+            <option value="">Sin equipo (varios equipos)</option>
+            {% for equipo in equipos %}
+            <option value="{{ equipo.id }}" {% if estadio.equipo_local.id == equipo.id %}selected{% endif %}>
+                {{ equipo.nombre }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Actualizar Estadio</button>
+        <a href="{% url 'ver_estadios' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

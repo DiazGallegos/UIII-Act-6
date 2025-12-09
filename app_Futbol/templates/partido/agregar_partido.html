@@ -1,0 +1,99 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<h2>Agregar Nuevo Partido</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="equipo_local" class="form-label">Equipo Local *</label>
+                <select class="form-control" id="equipo_local" name="equipo_local" required>
+                    <option value="">Seleccione equipo local</option>
+                    {% for equipo in equipos %}
+                        <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="equipo_visitante" class="form-label">Equipo Visitante *</label>
+                <select class="form-control" id="equipo_visitante" name="equipo_visitante" required>
+                    <option value="">Seleccione equipo visitante</option>
+                    {% for equipo in equipos %}
+                        <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="fecha" class="form-label">Fecha y Hora *</label>
+                <input type="datetime-local" class="form-control" id="fecha" name="fecha" required>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="estadio" class="form-label">Estadio</label>
+                <select class="form-control" id="estadio" name="estadio">
+                    <option value="">Seleccione estadio (opcional)</option>
+                    {% for estadio in estadios %}
+                        <option value="{{ estadio.id }}">{{ estadio.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-3">
+            <div class="mb-3">
+                <label for="goles_local" class="form-label">Goles Local</label>
+                <input type="number" class="form-control" id="goles_local" name="goles_local" value="0" min="0">
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="mb-3">
+                <label for="goles_visitante" class="form-label">Goles Visitante</label>
+                <input type="number" class="form-control" id="goles_visitante" name="goles_visitante" value="0" min="0">
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="mb-3">
+                <label for="asistencia" class="form-label">Asistencia</label>
+                <input type="number" class="form-control" id="asistencia" name="asistencia" value="0" min="0">
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="mb-3">
+                <label for="estado" class="form-label">Estado</label>
+                <select class="form-control" id="estado" name="estado">
+                    <option value="PEN">Pendiente</option>
+                    <option value="JUG">Jugándose</option>
+                    <option value="FIN">Finalizado</option>
+                    <option value="SUS">Suspendido</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mb-3">
+        <label for="foto" class="form-label">Foto del Partido (opcional)</label>
+        <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Guardar Partido</button>
+    <a href="{% url "ver_partidos" %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Editar Partido: {{ partido.equipo_local }} vs {{ partido.equipo_visitante }}</h2>
+    
+    <form method="POST" action="{% url 'realizar_actualizacion_partido' partido.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Fecha y Hora</label>
+                <input type="datetime-local" class="form-control" name="fecha" 
+                       value="{{ partido.fecha|date:'Y-m-d\TH:i' }}" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Estadio</label>
+                <select class="form-control" name="estadio">
+                    <option value="">Seleccionar estadio</option>
+                    {% for estadio in estadios %}
+                    <option value="{{ estadio.id }}" {% if partido.estadio.id == estadio.id %}selected{% endif %}>
+                        {{ estadio.nombre }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Equipo Local</label>
+                <select class="form-control" name="equipo_local" required>
+                    {% for equipo in equipos %}
+                    <option value="{{ equipo.id }}" {% if partido.equipo_local.id == equipo.id %}selected{% endif %}>
+                        {{ equipo.nombre }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Equipo Visitante</label>
+                <select class="form-control" name="equipo_visitante" required>
+                    {% for equipo in equipos %}
+                    <option value="{{ equipo.id }}" {% if partido.equipo_visitante.id == equipo.id %}selected{% endif %}>
+                        {{ equipo.nombre }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="form-label">Goles Local</label>
+                <input type="number" class="form-control" name="goles_local" value="{{ partido.goles_local }}" min="0">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Goles Visitante</label>
+                <input type="number" class="form-control" name="goles_visitante" value="{{ partido.goles_visitante }}" min="0">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Estado</label>
+                <select class="form-control" name="estado">
+                    <option value="PEN" {% if partido.estado == 'PEN' %}selected{% endif %}>Pendiente</option>
+                    <option value="JUG" {% if partido.estado == 'JUG' %}selected{% endif %}>Jugándose</option>
+                    <option value="FIN" {% if partido.estado == 'FIN' %}selected{% endif %}>Finalizado</option>
+                    <option value="SUS" {% if partido.estado == 'SUS' %}selected{% endif %}>Suspendido</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Asistencia</label>
+            <input type="number" class="form-control" name="asistencia" value="{{ partido.asistencia|default_if_none:0 }}" min="0">
+        </div>
+        
+        <!-- IMAGEN ACTUAL -->
+        <div class="mb-3">
+            <label class="form-label">Imagen Actual</label>
+            {% if partido.foto %}
+            <div class="mb-2">
+                <img src="{{ partido.foto.url }}" alt="Partido" style="max-height: 100px; width: auto;">
+                <p class="text-muted mt-1">{{ partido.foto.name }}</p>
+            </div>
+            {% else %}
+            <p class="text-muted">No hay imagen cargada</p>
+            {% endif %}
+        </div>
+        
+        <!-- CAMPO PARA CAMBIAR IMAGEN -->
+        <div class="mb-3">
+            <label class="form-label">Cambiar Imagen</label>
+            <input type="file" class="form-control" name="foto" accept="image/*">
+            <small class="text-muted">Deja vacío para mantener la imagen actual</small>
+        </div>
+        
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Actualizar Partido</button>
+            <a href="{% url 'ver_partidos' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

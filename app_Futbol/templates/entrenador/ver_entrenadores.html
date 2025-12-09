@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Lista de Entrenadores</h2>
+<a href="{% url 'agregar_entrenador' %}" class="btn btn-primary mb-3">➕ Agregar Nuevo Entrenador</a>
+
+{% if entrenadores %}
+<div class="row">
+    {% for entrenador in entrenadores %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="text-center p-3" style="height: 250px;">
+                {% if entrenador.foto %}
+                    <img src="{{ entrenador.foto.url }}" 
+                         class="img-fluid rounded h-100" 
+                         alt="{{ entrenador.nombre }} {{ entrenador.apellido }}"
+                         style="object-fit: contain;">
+                {% else %}
+                    <div class="bg-light h-100 d-flex align-items-center justify-content-center">
+                        <div class="text-center">
+                            <span class="text-muted d-block fs-1">👨‍🏫</span>
+                            <small class="text-muted">Sin foto</small>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="card-body">
+                <h5 class="card-title">{{ entrenador.nombre }} {{ entrenador.apellido }}</h5>
+                <p class="card-text">
+                    <strong>🌍 Nacionalidad:</strong> {{ entrenador.nacionalidad }}<br>
+                    <strong>📜 Licencia:</strong> {{ entrenador.licencia|default:"No especificada" }}<br>
+                    <strong>📅 Contrato:</strong> {{ entrenador.fecha_inicio_contrato|date:"d/m/Y" }} - 
+                    {% if entrenador.fecha_fin_contrato %}
+                        {{ entrenador.fecha_fin_contrato|date:"d/m/Y" }}
+                    {% else %}
+                        Presente
+                    {% endif %}<br>
+                    {% if entrenador.equipo %}
+                        <strong>🏆 Equipo:</strong> {{ entrenador.equipo.nombre }}
+                    {% else %}
+                        <strong>🏆 Equipo:</strong> Sin equipo asignado
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'actualizar_entrenador' entrenador.id %}" class="btn btn-warning btn-sm">✏️ Editar</a>
+                <a href="{% url 'borrar_entrenador' entrenador.id %}" class="btn btn-danger btn-sm">🗑️ Borrar</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">
+    No hay entrenadores registrados. <a href="{% url 'agregar_entrenador' %}">Agregar el primer entrenador</a>
+</div>
+{% endif %}
+{% endblock %}

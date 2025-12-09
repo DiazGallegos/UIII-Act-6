@@ -1,0 +1,71 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<h2>Lista de Partidos</h2>
+<a href="{% url 'agregar_partido' %}" class="btn btn-primary mb-3">➕ Agregar Nuevo Partido</a>
+
+{% if partidos %}
+<div class="row">
+    {% for partido in partidos %}
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="text-center p-3" style="height: 200px;">
+                {% if partido.foto %}
+                    <img src="{{ partido.foto.url }}" 
+                         class="img-fluid rounded h-100" 
+                         alt="{{ partido.equipo_local }} vs {{ partido.equipo_visitante }}"
+                         style="object-fit: contain;">
+                {% else %}
+                    <div class="bg-light h-100 d-flex align-items-center justify-content-center">
+                        <div class="text-center">
+                            <span class="text-muted d-block fs-1">⚽</span>
+                            <small class="text-muted">Sin imagen</small>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="card-body">
+                <h5 class="card-title text-center">
+                    {{ partido.equipo_local.nombre }} vs {{ partido.equipo_visitante.nombre }}
+                </h5>
+                
+                <div class="text-center mb-3">
+                    <h2>
+                        <span class="badge bg-primary">{{ partido.goles_local }}</span>
+                        <span class="mx-3">-</span>
+                        <span class="badge bg-danger">{{ partido.goles_visitante }}</span>
+                    </h2>
+                </div>
+                
+                <p class="card-text">
+                    <strong>📅 Fecha:</strong> {{ partido.fecha|date:"d/m/Y H:i" }}<br>
+                    <strong>🏟️ Estadio:</strong> 
+                    {% if partido.estadio %}
+                        {{ partido.estadio.nombre }}
+                    {% else %}
+                        Por definir
+                    {% endif %}<br>
+                    <strong>📊 Estado:</strong> 
+                    {% if partido.estado == 'PEN' %}Pendiente
+                    {% elif partido.estado == 'JUG' %}Jugándose
+                    {% elif partido.estado == 'FIN' %}Finalizado
+                    {% elif partido.estado == 'SUS' %}Suspendido
+                    {% endif %}<br>
+                    <strong>👥 Asistencia:</strong> {{ partido.asistencia|default:"0" }} espectadores
+                </p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'actualizar_partido' partido.id %}" class="btn btn-warning btn-sm">✏️ Editar</a>
+                <a href="{% url 'borrar_partido' partido.id %}" class="btn btn-danger btn-sm">🗑️ Borrar</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">
+    No hay partidos registrados. <a href="{% url 'agregar_partido' %}">Agregar el primer partido</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Editar Entrenador: {{ entrenador.nombre }} {{ entrenador.apellido }}</h2>
+    
+    <form method="POST" action="{% url 'realizar_actualizacion_entrenador' entrenador.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="nombre" value="{{ entrenador.nombre }}" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Apellido</label>
+                <input type="text" class="form-control" name="apellido" value="{{ entrenador.apellido }}" required>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Fecha de Nacimiento</label>
+                <input type="date" class="form-control" name="fecha_nacimiento" 
+                       value="{{ entrenador.fecha_nacimiento|date:'Y-m-d' }}" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Nacionalidad</label>
+                <input type="text" class="form-control" name="nacionalidad" value="{{ entrenador.nacionalidad }}" required>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Licencia</label>
+                <input type="text" class="form-control" name="licencia" value="{{ entrenador.licencia|default_if_none:'' }}">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Equipo</label>
+                <select class="form-control" name="equipo">
+                    <option value="">Sin equipo</option>
+                    {% for equipo in equipos %}
+                    <option value="{{ equipo.id }}" {% if entrenador.equipo.id == equipo.id %}selected{% endif %}>
+                        {{ equipo.nombre }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Fecha Inicio Contrato</label>
+                <input type="date" class="form-control" name="fecha_inicio_contrato" 
+                       value="{{ entrenador.fecha_inicio_contrato|date:'Y-m-d' }}" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Fecha Fin Contrato</label>
+                <input type="date" class="form-control" name="fecha_fin_contrato" 
+                       value="{{ entrenador.fecha_fin_contrato|date:'Y-m-d' }}">
+            </div>
+        </div>
+        
+        <!-- IMAGEN ACTUAL -->
+        <div class="mb-3">
+            <label class="form-label">Imagen Actual</label>
+            {% if entrenador.foto %}
+            <div class="mb-2">
+                <img src="{{ entrenador.foto.url }}" alt="{{ entrenador.nombre }}" style="max-height: 100px; width: auto;">
+                <p class="text-muted mt-1">{{ entrenador.foto.name }}</p>
+            </div>
+            {% else %}
+            <p class="text-muted">No hay imagen cargada</p>
+            {% endif %}
+        </div>
+        
+        <!-- CAMPO PARA CAMBIAR IMAGEN -->
+        <div class="mb-3">
+            <label class="form-label">Cambiar Imagen</label>
+            <input type="file" class="form-control" name="foto" accept="image/*">
+            <small class="text-muted">Deja vacío para mantener la imagen actual</small>
+        </div>
+        
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Actualizar Entrenador</button>
+            <a href="{% url 'ver_entrenadores' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

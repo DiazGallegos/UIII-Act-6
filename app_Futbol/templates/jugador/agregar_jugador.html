@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Agregar Nuevo Jugador</h2>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="nombre" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Apellido</label>
+                <input type="text" class="form-control" name="apellido" required>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Fecha de Nacimiento</label>
+                <input type="date" class="form-control" name="fecha_nacimiento" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Nacionalidad</label>
+                <input type="text" class="form-control" name="nacionalidad" required>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Posición</label>
+                <select class="form-control" name="posicion" required>
+                    <option value="">Seleccionar posición</option>
+                    <option value="POR">Portero</option>
+                    <option value="DEF">Defensa</option>
+                    <option value="MED">Mediocampista</option>
+                    <option value="DEL">Delantero</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Número de Camiseta</label>
+                <input type="number" class="form-control" name="numero_camiseta" min="1" max="99" required>
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Equipo</label>
+            <select class="form-control" name="equipo" required>
+                <option value="">Seleccionar equipo</option>
+                {% for equipo in equipos %}
+                <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <!-- CAMPO DE IMAGEN DEL JUGADOR -->
+        <div class="mb-3">
+            <label class="form-label">Foto del Jugador</label>
+            <input type="file" class="form-control" name="foto" accept="image/*">
+            <small class="text-muted">Sube una foto del jugador</small>
+        </div>
+        
+        <div class="mt-3">
+            <button type="submit" class="btn btn-success">Guardar Jugador</button>
+            <a href="{% url 'ver_jugadores' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

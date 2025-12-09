@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Editar Árbitro: {{ arbitro.nombre }} {{ arbitro.apellido }}</h2>
+    
+    <form method="POST" action="{% url 'realizar_actualizacion_arbitro' arbitro.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="nombre" value="{{ arbitro.nombre }}" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Apellido</label>
+                <input type="text" class="form-control" name="apellido" value="{{ arbitro.apellido }}" required>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Fecha de Nacimiento</label>
+                <input type="date" class="form-control" name="fecha_nacimiento" 
+                       value="{{ arbitro.fecha_nacimiento|date:'Y-m-d' }}" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Nacionalidad</label>
+                <input type="text" class="form-control" name="nacionalidad" value="{{ arbitro.nacionalidad }}" required>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Tipo de Árbitro</label>
+                <select class="form-control" name="tipo" required>
+                    <option value="PRIN" {% if arbitro.tipo == 'PRIN' %}selected{% endif %}>Árbitro Principal</option>
+                    <option value="ASIS" {% if arbitro.tipo == 'ASIS' %}selected{% endif %}>Árbitro Asistente</option>
+                    <option value="CUAR" {% if arbitro.tipo == 'CUAR' %}selected{% endif %}>Cuarto Árbitro</option>
+                    <option value="VAR" {% if arbitro.tipo == 'VAR' %}selected{% endif %}>Árbitro VAR</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Experiencia (años)</label>
+                <input type="number" class="form-control" name="experiencia_años" value="{{ arbitro.experiencia_años }}" min="0">
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Federación</label>
+            <input type="text" class="form-control" name="federacion" value="{{ arbitro.federacion|default_if_none:'' }}">
+        </div>
+        
+        <!-- IMAGEN ACTUAL -->
+        <div class="mb-3">
+            <label class="form-label">Imagen Actual</label>
+            {% if arbitro.foto %}
+            <div class="mb-2">
+                <img src="{{ arbitro.foto.url }}" alt="{{ arbitro.nombre }}" style="max-height: 100px; width: auto;">
+                <p class="text-muted mt-1">{{ arbitro.foto.name }}</p>
+            </div>
+            {% else %}
+            <p class="text-muted">No hay imagen cargada</p>
+            {% endif %}
+        </div>
+        
+        <!-- CAMPO PARA CAMBIAR IMAGEN -->
+        <div class="mb-3">
+            <label class="form-label">Cambiar Imagen</label>
+            <input type="file" class="form-control" name="foto" accept="image/*">
+            <small class="text-muted">Deja vacío para mantener la imagen actual</small>
+        </div>
+        
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Actualizar Árbitro</button>
+            <a href="{% url 'ver_arbitros' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

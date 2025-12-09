@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Agregar Nuevo Árbitro</h2>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="nombre" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Apellido</label>
+                <input type="text" class="form-control" name="apellido" required>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Fecha de Nacimiento</label>
+                <input type="date" class="form-control" name="fecha_nacimiento" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Nacionalidad</label>
+                <input type="text" class="form-control" name="nacionalidad" required>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Tipo de Árbitro</label>
+                <select class="form-control" name="tipo" required>
+                    <option value="">Seleccionar tipo</option>
+                    <option value="PRIN">Árbitro Principal</option>
+                    <option value="ASIS">Árbitro Asistente</option>
+                    <option value="CUAR">Cuarto Árbitro</option>
+                    <option value="VAR">Árbitro VAR</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Experiencia (años)</label>
+                <input type="number" class="form-control" name="experiencia_años" min="0" value="0">
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Federación</label>
+            <input type="text" class="form-control" name="federacion">
+        </div>
+        
+        <!-- CAMPO DE IMAGEN -->
+        <div class="mb-3">
+            <label class="form-label">Foto del Árbitro</label>
+            <input type="file" class="form-control" name="foto" accept="image/*">
+            <small class="text-muted">Sube una foto del árbitro</small>
+        </div>
+        
+        <div class="mt-3">
+            <button type="submit" class="btn btn-success">Guardar Árbitro</button>
+            <a href="{% url 'ver_arbitros' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

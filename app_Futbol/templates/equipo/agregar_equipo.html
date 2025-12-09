@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Agregar Nuevo Equipo</h2>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label class="form-label">Nombre del Equipo</label>
+            <input type="text" class="form-control" name="nombre" required>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Ciudad</label>
+                <input type="text" class="form-control" name="ciudad" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">País</label>
+                <input type="text" class="form-control" name="pais" required>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Fecha de Fundación</label>
+                <input type="date" class="form-control" name="fundacion" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Colores</label>
+                <input type="text" class="form-control" name="colores" required>
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Presidente</label>
+            <input type="text" class="form-control" name="presidente">
+        </div>
+        
+        <!-- CAMPO DE IMAGEN -->
+        <div class="mb-3">
+            <label class="form-label">Logo/Imagen del Equipo</label>
+            <input type="file" class="form-control" name="imagen" accept="image/*">
+            <small class="text-muted">Sube una imagen del equipo (JPG, PNG, GIF)</small>
+        </div>
+        
+        <div class="mt-3">
+            <button type="submit" class="btn btn-success">Guardar Equipo</button>
+            <a href="{% url 'ver_equipos' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

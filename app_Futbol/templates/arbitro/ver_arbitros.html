@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Lista de Árbitros</h2>
+<a href="{% url 'agregar_arbitro' %}" class="btn btn-primary mb-3">➕ Agregar Nuevo Árbitro</a>
+
+{% if arbitros %}
+<div class="row">
+    {% for arbitro in arbitros %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="text-center p-3" style="height: 250px;">
+                {% if arbitro.foto %}
+                    <img src="{{ arbitro.foto.url }}" 
+                         class="img-fluid rounded h-100" 
+                         alt="{{ arbitro.nombre }} {{ arbitro.apellido }}"
+                         style="object-fit: contain;">
+                {% else %}
+                    <div class="bg-light h-100 d-flex align-items-center justify-content-center">
+                        <div class="text-center">
+                            <span class="text-muted d-block fs-1">👨‍⚖️</span>
+                            <small class="text-muted">Sin foto</small>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="card-body">
+                <h5 class="card-title">{{ arbitro.nombre }} {{ arbitro.apellido }}</h5>
+                <p class="card-text">
+                    <strong>🌍 Nacionalidad:</strong> {{ arbitro.nacionalidad }}<br>
+                    <strong>📋 Tipo:</strong> {{ arbitro.get_tipo_display }}<br>
+                    <strong>📅 Experiencia:</strong> {{ arbitro.experiencia_años }} años<br>
+                    <strong>🏛️ Federación:</strong> {{ arbitro.federacion|default:"No especificada" }}<br>
+                    <strong>🎂 Nacimiento:</strong> {{ arbitro.fecha_nacimiento|date:"d/m/Y" }}
+                </p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'actualizar_arbitro' arbitro.id %}" class="btn btn-warning btn-sm">✏️ Editar</a>
+                <a href="{% url 'borrar_arbitro' arbitro.id %}" class="btn btn-danger btn-sm">🗑️ Borrar</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">
+    No hay árbitros registrados. <a href="{% url 'agregar_arbitro' %}">Agregar el primer árbitro</a>
+</div>
+{% endif %}
+{% endblock %}

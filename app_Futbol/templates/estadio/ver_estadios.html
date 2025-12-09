@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Lista de Estadios</h2>
+<a href="{% url 'agregar_estadio' %}" class="btn btn-primary mb-3">➕ Agregar Nuevo Estadio</a>
+
+{% if estadios %}
+<div class="row">
+    {% for estadio in estadios %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <!-- FOTO DEL ESTADIO -->
+            <div class="text-center p-3" style="height: 200px;">
+                {% if estadio.foto %}
+                    <img src="{{ estadio.foto.url }}" 
+                         class="img-fluid rounded h-100" 
+                         alt="{{ estadio.nombre }}"
+                         style="object-fit: contain;">
+                {% else %}
+                    <div class="bg-light h-100 d-flex align-items-center justify-content-center">
+                        <div class="text-center">
+                            <span class="text-muted d-block fs-1">🏟️</span>
+                            <small class="text-muted">Sin foto</small>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="card-body">
+                <h5 class="card-title">{{ estadio.nombre }}</h5>
+                <p class="card-text">
+                    <strong>🏙️ Ciudad:</strong> {{ estadio.ciudad }}<br>
+                    <strong>👥 Capacidad:</strong> {{ estadio.capacidad|floatformat:0 }} espectadores<br>
+                    <strong>📅 Inauguración:</strong> {{ estadio.año_inauguracion }}<br>
+                    {% if estadio.equipo_local %}
+                        <strong>🏆 Equipo local:</strong> {{ estadio.equipo_local.nombre }}
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'actualizar_estadio' estadio.id %}" class="btn btn-warning btn-sm">✏️ Editar</a>
+                <a href="{% url 'borrar_estadio' estadio.id %}" class="btn btn-danger btn-sm">🗑️ Borrar</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">
+    No hay estadios registrados. <a href="{% url 'agregar_estadio' %}">Agregar el primer estadio</a>
+</div>
+{% endif %}
+{% endblock %}

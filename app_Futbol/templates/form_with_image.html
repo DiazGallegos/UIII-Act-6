@@ -1,0 +1,53 @@
+<!-- templates/form_with_image.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ titulo }}</h2>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% for field in fields %}
+        <div class="mb-3">
+            <label class="form-label">{{ field.label }}</label>
+            {% if field.type == 'text' %}
+            <input type="text" class="form-control" name="{{ field.name }}" 
+                   value="{{ field.value|default_if_none:'' }}" {{ field.required }}>
+            {% elif field.type == 'date' %}
+            <input type="date" class="form-control" name="{{ field.name }}" 
+                   value="{{ field.value|date:'Y-m-d' }}" {{ field.required }}>
+            {% elif field.type == 'number' %}
+            <input type="number" class="form-control" name="{{ field.name }}" 
+                   value="{{ field.value|default_if_none:'' }}" {{ field.required }}>
+            {% elif field.type == 'select' %}
+            <select class="form-control" name="{{ field.name }}" {{ field.required }}>
+                <option value="">Seleccionar...</option>
+                {% for option in field.options %}
+                <option value="{{ option.value }}" {% if option.selected %}selected{% endif %}>
+                    {{ option.text }}
+                </option>
+                {% endfor %}
+            </select>
+            {% elif field.type == 'textarea' %}
+            <textarea class="form-control" name="{{ field.name }}" rows="3">{{ field.value|default_if_none:'' }}</textarea>
+            {% elif field.type == 'file' %}
+            {% if field.current_image %}
+            <div class="mb-2">
+                <p>Imagen actual:</p>
+                <img src="{{ field.current_image.url }}" alt="Imagen actual" style="max-height: 100px;">
+            </div>
+            {% endif %}
+            <input type="file" class="form-control" name="{{ field.name }}" accept="image/*">
+            <small class="text-muted">{{ field.help_text }}</small>
+            {% endif %}
+        </div>
+        {% endfor %}
+        
+        <div class="mt-3">
+            <button type="submit" class="btn btn-success">{{ boton_texto }}</button>
+            <a href="{{ cancel_url }}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

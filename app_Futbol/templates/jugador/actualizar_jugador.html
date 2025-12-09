@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <h2>Actualizar Jugador: {{ jugador.nombre }} {{ jugador.apellido }}</h2>
+        <form method="POST" action="{% url 'realizar_actualizacion_jugador' jugador.id %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="nombre" value="{{ jugador.nombre }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Apellido</label>
+                <input type="text" class="form-control" name="apellido" value="{{ jugador.apellido }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Fecha de Nacimiento</label>
+                <input type="date" class="form-control" name="fecha_nacimiento" value="{{ jugador.fecha_nacimiento|date:'Y-m-d' }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Nacionalidad</label>
+                <input type="text" class="form-control" name="nacionalidad" value="{{ jugador.nacionalidad }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Posición</label>
+                <select class="form-control" name="posicion" required>
+                    <option value="POR" {% if jugador.posicion == 'POR' %}selected{% endif %}>Portero</option>
+                    <option value="DEF" {% if jugador.posicion == 'DEF' %}selected{% endif %}>Defensa</option>
+                    <option value="MED" {% if jugador.posicion == 'MED' %}selected{% endif %}>Mediocampista</option>
+                    <option value="DEL" {% if jugador.posicion == 'DEL' %}selected{% endif %}>Delantero</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Número de Camiseta</label>
+                <input type="number" class="form-control" name="numero_camiseta" value="{{ jugador.numero_camiseta }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Equipo</label>
+                <select class="form-control" name="equipo" required>
+                    {% for equipo in equipos %}
+                    <option value="{{ equipo.id }}" {% if jugador.equipo.id == equipo.id %}selected{% endif %}>{{ equipo.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-warning">Actualizar Jugador</button>
+            <a href="{% url 'ver_jugadores' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <h1 class="display-4">⚽ Sistema de Gestión de Fútbol</h1>
+    <p class="lead">Administra equipos, jugadores, partidos y más</p>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <!-- Equipos -->
+    <div class="col">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <h2 class="card-title">🏆 Equipos</h2>
+                <h3 class="display-1">{{ total_equipos }}</h3>
+                <p class="card-text">Equipos registrados en el sistema</p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'ver_equipos' %}" class="btn btn-primary w-100">Ver Equipos</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Jugadores -->
+    <div class="col">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <h2 class="card-title">👟 Jugadores</h2>
+                <h3 class="display-1">{{ total_jugadores }}</h3>
+                <p class="card-text">Jugadores en la base de datos</p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'ver_jugadores' %}" class="btn btn-primary w-100">Ver Jugadores</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Partidos -->
+    <div class="col">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <h2 class="card-title">⚽ Partidos</h2>
+                <h3 class="display-1">{{ total_partidos }}</h3>
+                <p class="card-text">Partidos programados y jugados</p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'ver_partidos' %}" class="btn btn-primary w-100">Ver Partidos</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Entrenadores -->
+    <div class="col">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <h2 class="card-title">👨‍🏫 Entrenadores</h2>
+                <h3 class="display-1">{{ total_entrenadores }}</h3>
+                <p class="card-text">Directores técnicos registrados</p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'ver_entrenadores' %}" class="btn btn-primary w-100">Ver Entrenadores</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Estadios -->
+    <div class="col">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <h2 class="card-title">🏟️ Estadios</h2>
+                <h3 class="display-1">{{ total_estadios }}</h3>
+                <p class="card-text">Estadios disponibles</p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'ver_estadios' %}" class="btn btn-primary w-100">Ver Estadios</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Árbitros -->
+    <div class="col">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <h2 class="card-title">👨‍⚖️ Árbitros</h2>
+                <h3 class="display-1">{{ total_arbitros }}</h3>
+                <p class="card-text">Árbitros disponibles</p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'ver_arbitros' %}" class="btn btn-primary w-100">Ver Árbitros</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5 alert alert-info">
+    <h4>📊 Resumen Total</h4>
+    <p>El sistema cuenta con <strong>{{ total_equipos }}</strong> equipos, <strong>{{ total_jugadores }}</strong> jugadores, 
+    <strong>{{ total_partidos }}</strong> partidos, <strong>{{ total_entrenadores }}</strong> entrenadores, 
+    <strong>{{ total_estadios }}</strong> estadios y <strong>{{ total_arbitros }}</strong> árbitros.</p>
+</div>
+{% endblock %}

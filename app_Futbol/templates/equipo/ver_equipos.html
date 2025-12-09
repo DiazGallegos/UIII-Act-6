@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Lista de Equipos</h2>
+<a href="{% url 'agregar_equipo' %}" class="btn btn-primary mb-3">➕ Agregar Nuevo Equipo</a>
+
+{% if equipos %}
+<div class="row">
+    {% for equipo in equipos %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="text-center p-3" style="height: 200px;">
+                {% if equipo.imagen %}
+                    <img src="{{ equipo.imagen.url }}" 
+                         class="img-fluid rounded h-100" 
+                         alt="{{ equipo.nombre }}"
+                         style="object-fit: contain;">
+                {% else %}
+                    <div class="bg-light h-100 d-flex align-items-center justify-content-center">
+                        <div class="text-center">
+                            <span class="text-muted d-block fs-1">⚽</span>
+                            <small class="text-muted">Sin imagen</small>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ equipo.nombre }}</h5>
+                <p class="card-text">
+                    <strong>🏙️ Ciudad:</strong> {{ equipo.ciudad }}<br>
+                    <strong>🇵🇦 País:</strong> {{ equipo.pais }}<br>
+                    <strong>🎨 Colores:</strong> {{ equipo.colores }}<br>
+                    <strong>📅 Fundación:</strong> {{ equipo.fundacion }}<br>
+                    {% if equipo.presidente %}
+                        <strong>👑 Presidente:</strong> {{ equipo.presidente }}
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'actualizar_equipo' equipo.id %}" class="btn btn-warning btn-sm">✏️ Editar</a>
+                <a href="{% url 'borrar_equipo' equipo.id %}" class="btn btn-danger btn-sm">🗑️ Borrar</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">
+    No hay equipos registrados. <a href="{% url 'agregar_equipo' %}">Agregar el primer equipo</a>
+</div>
+{% endif %}
+{% endblock %}

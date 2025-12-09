@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h2>¿Estás seguro de borrar este partido?</h2>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ partido.equipo_local }} vs {{ partido.equipo_visitante }}</h5>
+                <p class="card-text">
+                    <strong>Fecha:</strong> {{ partido.fecha|date:"d/m/Y H:i" }}<br>
+                    <strong>Estadio:</strong> {{ partido.estadio }}<br>
+                    <strong>Resultado:</strong> {{ partido.goles_local }} - {{ partido.goles_visitante }}<br>
+                    <strong>Estado:</strong> 
+                    {% if partido.estado == 'PEN' %}Pendiente
+                    {% elif partido.estado == 'JUG' %}Jugándose
+                    {% elif partido.estado == 'FIN' %}Finalizado
+                    {% elif partido.estado == 'SUS' %}Suspendido
+                    {% endif %}
+                </p>
+                <form method="POST" action="{% url 'realizar_borrado_partido' partido.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Sí, Borrar</button>
+                    <a href="{% url 'ver_partidos' %}" class="btn btn-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

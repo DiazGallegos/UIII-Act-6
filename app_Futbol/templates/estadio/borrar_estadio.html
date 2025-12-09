@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Confirmar Eliminación</h2>
+<div class="alert alert-danger">
+    <h4>¿Estás seguro de que quieres eliminar este estadio?</h4>
+    <p><strong>Nombre:</strong> {{ estadio.nombre }}</p>
+    <p><strong>Ciudad:</strong> {{ estadio.ciudad }}</p>
+    <p><strong>Capacidad:</strong> {{ estadio.capacidad|floatformat:0 }} espectadores</p>
+    <p><strong>Equipo Local:</strong> {% if estadio.equipo_local %}{{ estadio.equipo_local.nombre }}{% else %}Varios equipos{% endif %}</p>
+    <p class="text-danger mt-2"><strong>⚠ Advertencia:</strong> Esto también eliminará todos los partidos asociados a este estadio.</p>
+</div>
+
+<form method="POST" action="{% url 'realizar_borrado_estadio' estadio.id %}">
+    {% csrf_token %}
+    <div class="mt-3">
+        <button type="submit" class="btn btn-danger">Sí, Eliminar</button>
+        <a href="{% url 'ver_estadios' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

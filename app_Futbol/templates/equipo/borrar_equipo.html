@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h2>¿Estás seguro de borrar este equipo?</h2>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ equipo.nombre }}</h5>
+                <p class="card-text">
+                    <strong>Ciudad:</strong> {{ equipo.ciudad }}<br>
+                    <strong>País:</strong> {{ equipo.pais }}<br>
+                    <strong>Estadio:</strong> {{ equipo.estadio }}<br>
+                    <strong>Entrenador:</strong> {{ equipo.entrenador }}
+                </p>
+                <form method="POST" action="{% url 'realizar_borrado_equipo' equipo.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Sí, Borrar</button>
+                    <a href="{% url 'ver_equipos' %}" class="btn btn-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

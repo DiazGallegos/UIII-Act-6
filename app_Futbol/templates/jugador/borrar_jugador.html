@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <h2>¿Estás seguro de borrar este jugador?</h2>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ jugador.nombre }} {{ jugador.apellido }}</h5>
+                <p class="card-text">
+                    <strong>Posición:</strong> 
+                    {% if jugador.posicion == 'POR' %}Portero
+                    {% elif jugador.posicion == 'DEF' %}Defensa
+                    {% elif jugador.posicion == 'MED' %}Mediocampista
+                    {% elif jugador.posicion == 'DEL' %}Delantero
+                    {% endif %}<br>
+                    <strong>Número:</strong> {{ jugador.numero_camiseta }}<br>
+                    <strong>Equipo:</strong> {{ jugador.equipo.nombre }}<br>
+                    <strong>Nacionalidad:</strong> {{ jugador.nacionalidad }}
+                </p>
+                <form method="POST" action="{% url 'realizar_borrado_jugador' jugador.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Sí, Borrar</button>
+                    <a href="{% url 'ver_jugadores' %}" class="btn btn-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+﻿<nav class="navbar navbar-expand-lg navbar-dark navbar-custom shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url "inicio_futbol" %}">
+            <span class="fs-4">⚽</span> Sistema de Fútbol
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <!-- Equipos -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="equiposDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        👥 Equipos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="equiposDropdown">
+                        <li><a class="dropdown-item" href="{% url "ver_equipos" %}">📋 Ver Equipos</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url "agregar_equipo" %}">➕ Agregar Equipo</a></li>
+                    </ul>
+                </li>
+                
+                <!-- Jugadores -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="jugadoresDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        👟 Jugadores
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="jugadoresDropdown">
+                        <li><a class="dropdown-item" href="{% url "ver_jugadores" %}">📋 Ver Jugadores</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url "agregar_jugador" %}">➕ Agregar Jugador</a></li>
+                    </ul>
+                </li>
+                
+                <!-- Partidos -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="partidosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        ⚽ Partidos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="partidosDropdown">
+                        <li><a class="dropdown-item" href="{% url "ver_partidos" %}">📋 Ver Partidos</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url "agregar_partido" %}">➕ Agregar Partido</a></li>
+                    </ul>
+                </li>
+                
+                <!-- Entrenadores -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="entrenadoresDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        📋 Entrenadores
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="entrenadoresDropdown">
+                        <li><a class="dropdown-item" href="{% url "ver_entrenadores" %}">👁️ Ver Entrenadores</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url "agregar_entrenador" %}">➕ Agregar Entrenador</a></li>
+                    </ul>
+                </li>
+                
+                <!-- Estadios -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="estadiosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        🏟️ Estadios
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="estadiosDropdown">
+                        <li><a class="dropdown-item" href="{% url "ver_estadios" %}">👁️ Ver Estadios</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url "agregar_estadio" %}">➕ Agregar Estadio</a></li>
+                    </ul>
+                </li>
+                
+                <!-- Árbitros -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="arbitrosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        👨‍⚖️ Árbitros
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="arbitrosDropdown">
+                        <li><a class="dropdown-item" href="{% url "ver_arbitros" %}">👁️ Ver Árbitros</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url "agregar_arbitro" %}">➕ Agregar Árbitro</a></li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <!-- Botón de Inicio a la derecha -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link btn btn-outline-light" href="{% url "inicio_futbol" %}">
+                        🏠 Inicio
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
